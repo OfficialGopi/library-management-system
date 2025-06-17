@@ -69,9 +69,9 @@ AFTER DELETE ON borrow
 FOR EACH ROW
 BEGIN
   INSERT INTO borrow_deleted
-          (borrow__id, book_id, card_number,
+          (borrow_id, book_id, card_number,
            borrow_date, due_date, returned_on, deleted_at)
-  VALUES  (OLD.borrow__id, OLD.book_id, OLD.card_number,
+  VALUES  (OLD.borrow_id, OLD.book_id, OLD.card_number,
            OLD.borrow_date, OLD.due_date, OLD.returned_on, NOW());
 END;
   `;
