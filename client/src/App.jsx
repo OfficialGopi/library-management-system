@@ -1,13 +1,11 @@
 import { useState } from "react";
 import { tabOptionsEnum, tabOptions } from "./constants/constants";
-import CreateSupplier from "./components/CreateSupplier";
-import SupplierTable from "./components/SupplierTable";
-import ProductTable from "./components/ProductTable";
-import InventoryLog from "./components/InventoryLog";
-import CreateProducts from "./components/CreateProducts";
+import BooksPage from "./pages/BooksPages";
+import MembersPage from "./pages/MembersPage";
+import BorrowPage from "./pages/BorrowPage";
 
 const App = () => {
-  const [tabOptionsSelect, setTabOptionsSelect] = useState(tabOptions.PRODUCT);
+  const [tabOptionsSelect, setTabOptionsSelect] = useState(tabOptions.BOOKS);
   return (
     <div className="w-[1024px] mx-auto ">
       <div className="w-full  flex flex-col items-center border rounded-lg">
@@ -31,13 +29,10 @@ const App = () => {
         </div>
 
         <div className="w-full p-4 ">
-          {tabOptionsSelect === tabOptions.SUPPLIER && <CreateSupplier />}
-          {tabOptionsSelect === tabOptions.PRODUCT && <CreateProducts />}
+          {tabOptionsSelect === tabOptions.BOOKS && <BooksPage />}
+          {tabOptionsSelect === tabOptions.MEMBERS && <MembersPage />}
+          {tabOptionsSelect === tabOptions.BORROW && <BorrowPage />}
         </div>
-
-        {tabOptionsSelect === tabOptions.SUPPLIER && <SupplierTable />}
-        {tabOptionsSelect === tabOptions.PRODUCT && <ProductTable />}
-        {tabOptionsSelect === tabOptions.LOGS && <InventoryLog />}
       </div>
     </div>
   );

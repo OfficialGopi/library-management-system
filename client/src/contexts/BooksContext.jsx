@@ -1,32 +1,33 @@
 import { useState } from "react";
 import { useContext } from "react";
 import { createContext } from "react";
-import { getAllLogs } from "./../services/logs.service";
+import { getAllBooks } from "../services/books.service";
 
-const InventoryLogContext = createContext();
+const BooksContext = createContext();
 
-const InventoryLogProvider = ({ children }) => {
-  const [logs, setLogs] = useState([]);
+const BooksProvider = ({ children }) => {
+  const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [filtered, setFiltered] = useState([]);
 
-  const fetchLogs = async () => {
+  const fetchBooks = async () => {
     setLoading(true);
-    const response = await getAllLogs();
+    const response = await getAllBooks();
     if (response) {
-      setLogs(response);
+      setBooks(() => response);
     }
     setLoading(false);
   };
   return (
-    <InventoryLogContext.Provider value={{ logs, loading, fetchLogs }}>
+    <BooksContext.Provider value={{ books, loading, fetchBooks, filtered }}>
       {children}
-    </InventoryLogContext.Provider>
+    </BooksContext.Provider>
   );
 };
 
-const useLogsContext = () => {
-  const { logs, loading, fetchLogs } = useContext(InventoryLogContext);
-  return { logs, loading, fetchLogs };
+const useBooksContext = () => {
+  const { books, loading, fetchBooks, filtered } = useContext(BooksContext);
+  return { books, loading, fetchBooks };
 };
 
-export { InventoryLogProvider, useLogsContext };
+export { BooksProvider, useBooksContext };

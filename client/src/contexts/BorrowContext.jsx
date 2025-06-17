@@ -1,32 +1,31 @@
 import { useState } from "react";
 import { useContext } from "react";
 import { createContext } from "react";
-import { getAllProducts } from "../services/products.service";
 
-const ProductContext = createContext();
+const BorrowContext = createContext();
 
-const ProductProvider = ({ children }) => {
-  const [products, setProducts] = useState([]);
+const BorrowProvider = ({ children }) => {
+  const [borrows, setBorrows] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const fetchProducts = async () => {
+  const fetchBorrows = async () => {
     setLoading(true);
-    const response = await getAllProducts();
+    const response = "";
     if (response) {
-      setProducts(response);
+      setBorrows(response);
     }
     setLoading(false);
   };
   return (
-    <ProductContext.Provider value={{ products, loading, fetchProducts }}>
+    <BorrowContext.Provider value={{ borrows, loading, fetchBorrows }}>
       {children}
-    </ProductContext.Provider>
+    </BorrowContext.Provider>
   );
 };
 
-const useProductContext = () => {
-  const { products, loading, fetchProducts } = useContext(ProductContext);
-  return { products, loading, fetchProducts };
+const useBorrowContext = () => {
+  const { borrows, loading, fetchBorrows } = useContext(BorrowContext);
+  return { borrows, loading, fetchBorrows };
 };
 
-export { ProductProvider, useProductContext };
+export { BorrowProvider, useBorrowContext };

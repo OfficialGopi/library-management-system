@@ -1,30 +1,30 @@
 import { createContext, useContext, useState } from "react";
-import { getAllSuppliers } from "../services/suppliers.service";
+import {} from "./../services/members.service";
 
 const MembersContext = createContext();
 const MembersProvider = ({ children }) => {
-  const [suppliers, setSuppliers] = useState([]);
+  const [members, setMembers] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const fetch = async () => {
+  const fetchMembers = async () => {
     setLoading(true);
-    const response = await getAllSuppliers();
+    const response = "";
     if (response) {
-      setSuppliers(response);
+      setMembers(response);
     }
     setLoading(false);
   };
 
   return (
-    <MembersProvider.Provider value={{ suppliers, loading, fetchSuppliers }}>
+    <MembersContext.Provider value={{ members, loading, fetchMembers }}>
       {children}
-    </MembersProvider.Provider>
+    </MembersContext.Provider>
   );
 };
 
 const useMembersContext = () => {
-  const { suppliers, loading, fetchSuppliers } = useContext(MembersContext);
+  const { members, loading, fetchMembers } = useContext(MembersContext);
 
-  return { suppliers, loading, fetchSuppliers };
+  return { members, loading, fetchMembers };
 };
-export { SupplierProvider, useSupplierContext };
+export { MembersProvider, useMembersContext };
