@@ -7,29 +7,52 @@ import {
 import MemberForm from "../components/MemberForm";
 import TableView from "../components/TableView";
 import SearchBar from "../components/SearchBar";
+import { useMembersContext } from "../contexts/MembersContext";
 
 export default function MembersPage() {
-  const [members, setMembers] = useState([]);
-  const [filtered, setFiltered] = useState([]);
+  const {
+    members,
+    loading,
+    fetchMembers,
+    filtered,
+    setFiltered,
+    activeMembersCount,
+    inactiveMembers,
+    topBorrower,
+    fetchActiveMembersCount,
+    fetchInactiveMembers,
+    fetchTopBorrower,
+  } = useMembersContext();
 
-  const fetchMembers = async () => {
-    const res = await getAllMembers();
-    setMembers(res.data.members);
-    setFiltered(res.data.members);
-  };
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     fetchMembers();
+    setFiltered(members);
+    fetchInactiveMembers();
+    fetchTopBorrower();
+    console.log(topBorrower);
+    console.log(inactiveMembers);
   }, []);
+
+  useEffect(() => {
+    if (filtered.length === 0) {
+      fetchMembers();
+      setFiltered(members);
+    } else {
+      fetchMembers();
+      handleSearch(search);
+    }
+  }, [search]);
 
   const handleAdd = async (member) => {
     await addMember(member);
-    fetchMembers();
+    await fetchMembers();
   };
 
   const handleDelete = async (card_number) => {
     await deleteMember(card_number);
-    fetchMembers();
+    await fetchMembers();
   };
 
   const handleSearch = (query) => {
@@ -41,11 +64,18 @@ export default function MembersPage() {
 
   return (
     <div>
-      <h2>Members</h2>
+      <h2 className="text-2xl font-bold">Members</h2>
       <MemberForm onSubmit={handleAdd} />
       <SearchBar placeholder="Search by name" onSearch={handleSearch} />
+      <div className="w-full">
+        <h1 className="text-lg">Inactive Members: {inactiveMembers ?? 0}</h1>
+        <h1 className="text-lg">
+          Top Borrower Name: {topBorrower.full_name} {"|                   |"}
+          Borrow Count: {topBorrower.borrow_count}
+        </h1>
+      </div>
       <TableView
-        data={filtered}
+        data={filtered.length === 0 && !search.length ? filtered : members}
         columns={[
           "card_number",
           "full_name",
@@ -55,6 +85,7 @@ export default function MembersPage() {
           "active",
         ]}
         onDelete={handleDelete}
+        loading={loading}
       />
     </div>
   );

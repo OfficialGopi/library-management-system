@@ -1,11 +1,22 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { tabOptionsEnum, tabOptions } from "./constants/constants";
 import BooksPage from "./pages/BooksPages";
 import MembersPage from "./pages/MembersPage";
 import BorrowPage from "./pages/BorrowPage";
+import { useMembersContext } from "./contexts/MembersContext";
+import { useBooksContext } from "./contexts/BooksContext";
+import { useBorrowContext } from "./contexts/BorrowContext";
 
 const App = () => {
   const [tabOptionsSelect, setTabOptionsSelect] = useState(tabOptions.BOOKS);
+  const { fetchMembers } = useMembersContext();
+  const { fetchBooks } = useBooksContext();
+  const { fetchBorrows } = useBorrowContext();
+  useEffect(() => {
+    fetchMembers();
+    fetchBooks();
+    fetchBorrows();
+  }, []);
   return (
     <div className="w-[1024px] mx-auto ">
       <div className="w-full  flex flex-col items-center border rounded-lg">

@@ -9,7 +9,10 @@ const addMember = async (member) => {
       body: JSON.stringify(member),
     });
     const data = await res.json();
-    if (!data.success) throw new Error(data.error);
+    if (!data.success) {
+      toast.error(data.message);
+      return;
+    }
     toast.success("Member added successfully");
   } catch (err) {
     toast.error(err.message);
@@ -23,7 +26,10 @@ const getAllMembers = async () => {
       headers: fetchHeaders,
     });
     const data = await res.json();
-    if (!data.success) throw new Error(data.error);
+    if (!data.success) {
+      toast.error(data.message);
+      return;
+    }
     return data.data;
   } catch (err) {
     toast.error(err.message);
@@ -37,7 +43,10 @@ const getActiveMembersCount = async () => {
       headers: fetchHeaders,
     });
     const data = await res.json();
-    if (!data.success) throw new Error(data.error);
+    if (!data.success) {
+      toast.error(data.message);
+      return;
+    }
     return data.data;
   } catch (err) {
     toast.error(err.message);
@@ -51,7 +60,10 @@ const searchMembersByName = async (name) => {
       headers: fetchHeaders,
     });
     const data = await res.json();
-    if (!data.success) throw new Error(data.error);
+    if (!data.success) {
+      toast.error(data.message);
+      return;
+    }
     return data.data;
   } catch (err) {
     toast.error(err.message);
@@ -65,7 +77,10 @@ const getInactiveMembers = async () => {
       headers: fetchHeaders,
     });
     const data = await res.json();
-    if (!data.success) throw new Error(data.error);
+    if (!data.success) {
+      toast.error(data.message);
+      return;
+    }
     return data.data;
   } catch (err) {
     toast.error(err.message);
@@ -79,7 +94,10 @@ const getTopBorrower = async () => {
       headers: fetchHeaders,
     });
     const data = await res.json();
-    if (!data.success) throw new Error(data.error);
+    if (!data.success) {
+      toast.error(data.message);
+      return;
+    }
     return data.data;
   } catch (err) {
     toast.error(err.message);
@@ -93,7 +111,10 @@ const deleteMember = async (cardNumber) => {
       headers: fetchHeaders,
     });
     const data = await res.json();
-    if (!data.success) throw new Error(data.error);
+    if (!data.success) {
+      toast.error(data.message);
+      return;
+    }
     toast.success("Member deleted successfully");
   } catch (err) {
     toast.error(err.message);

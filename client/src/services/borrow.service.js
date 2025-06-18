@@ -9,7 +9,10 @@ const addBorrowRecord = async (record) => {
       body: JSON.stringify(record),
     });
     const data = await res.json();
-    if (!data.success) throw new Error(data.error);
+    if (!data.success) {
+      toast.error(data.message);
+      return;
+    }
     toast.success("Borrow record added");
   } catch (err) {
     toast.error(err.message);
@@ -23,7 +26,10 @@ const getAllBorrowRecords = async () => {
       headers: fetchHeaders,
     });
     const data = await res.json();
-    if (!data.success) throw new Error(data.error);
+    if (!data.success) {
+      toast.error(data.message);
+      return;
+    }
     return data.data;
   } catch (err) {
     toast.error(err.message);
@@ -37,7 +43,10 @@ const getBorrowSummary = async () => {
       headers: fetchHeaders,
     });
     const data = await res.json();
-    if (!data.success) throw new Error(data.error);
+    if (!data.success) {
+      toast.error(data.message);
+      return;
+    }
     return data.data;
   } catch (err) {
     toast.error(err.message);
@@ -51,7 +60,10 @@ const deleteBorrowRecord = async (id) => {
       headers: fetchHeaders,
     });
     const data = await res.json();
-    if (!data.success) throw new Error(data.error);
+    if (!data.success) {
+      toast.error(data.message);
+      return;
+    }
     toast.success("Borrow record deleted");
     return data.data;
   } catch (err) {

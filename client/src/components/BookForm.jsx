@@ -11,9 +11,18 @@ function BookForm({ onSubmit }) {
 
   const handleChange = (e) =>
     setBook({ ...book, [e.target.name]: e.target.value });
+
   const handleSubmit = (e) => {
     e.preventDefault();
     onSubmit(book);
+    setBook({
+      book_id: "",
+      title: "",
+      author: "",
+      publisher: "",
+      year: "",
+      copies: 1,
+    });
   };
 
   return (

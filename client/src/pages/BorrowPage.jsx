@@ -1,19 +1,15 @@
 import { useEffect, useState } from "react";
 import {
-  getAllBorrowRecords,
   addBorrowRecord,
   deleteBorrowRecord,
 } from "../services/borrow.service";
 import BorrowForm from "../components/BorrowForm";
 import TableView from "../components/TableView";
+import { useBorrowContext } from "../contexts/BorrowContext";
 
 export default function BorrowPage() {
-  const [borrows, setBorrows] = useState([]);
-
-  const fetchBorrows = async () => {
-    const res = await getAllBorrowRecords();
-    setBorrows(res.data.borrowRecords);
-  };
+  const { borrows, fetchBorrows, loading, borrowSummary, fetchBorrowSummary } =
+    useBorrowContext();
 
   useEffect(() => {
     fetchBorrows();
@@ -21,17 +17,17 @@ export default function BorrowPage() {
 
   const handleAdd = async (record) => {
     await addBorrowRecord(record);
-    fetchBorrows();
+    await fetchBorrows();
   };
 
   const handleDelete = async (borrow_id) => {
-    await deleteBorrow(borrow_id);
-    deleteBorrowRecord();
+    await deleteBorrowRecord(borrow_id);
+    await fetchBorrows();
   };
 
   return (
     <div>
-      <h2>Borrow Records</h2>
+      <h2 className="text-2xl font-bold mb-2">Borrow Records</h2>
       <BorrowForm onSubmit={handleAdd} />
       <TableView
         data={borrows}
@@ -43,6 +39,7 @@ export default function BorrowPage() {
           "due_date",
           "returned_on",
         ]}
+        loading={loading}
         onDelete={handleDelete}
       />
     </div>

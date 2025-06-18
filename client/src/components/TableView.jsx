@@ -1,4 +1,4 @@
-import { Loader2 } from "lucide-react";
+import { Delete, Loader2 } from "lucide-react";
 function TableView({ data, columns, onDelete, loading }) {
   return (
     <>
@@ -25,9 +25,11 @@ function TableView({ data, columns, onDelete, loading }) {
                   {onDelete && (
                     <td>
                       <button
-                        onClick={() => onDelete(row.id || row.card_number)}
+                        onClick={() =>
+                          onDelete(row.id || row.card_number || row.book_id)
+                        }
                       >
-                        Delete
+                        <Delete className="w-5 h-5" />
                       </button>
                     </td>
                   )}

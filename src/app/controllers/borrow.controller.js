@@ -27,9 +27,10 @@ const getBorrowSummary = asyncHandler(async (req, res) => {
 
 const addBorrowRecord = asyncHandler(async (req, res) => {
   const { book_id, card_number, due_date } = req.body;
+  console.log(book_id, card_number, due_date);
   const [result] = await db.query(
     "INSERT INTO borrow (book_id, card_number, due_date) VALUES (?, ?, ?)",
-    [book_id, card_number, due_date],
+    [parseInt(book_id), card_number, due_date],
   );
   return res
     .status(201)
